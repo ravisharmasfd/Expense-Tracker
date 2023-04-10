@@ -21,6 +21,8 @@ form.addEventListener('submit', async(event) => {
 			alert('Server error. Please try again later.');
 		  }else if (error.response.status === 404) {
 			alert('User not found.');
+		  }else if (error.response.status === 400) {
+			alert('Check your credential');
 		  }
 	}
 });

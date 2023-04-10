@@ -17,10 +17,12 @@ form.addEventListener('submit', async(event) => {
 			window.location.href = '/signin';
 			}
 	} catch (error) {
-		if (error.response.status === 400) {
+		if (error.response.status === 401) {
 			alert('User already exists with this email address!');
 		  } else if (error.response.status === 500) {
 			alert('Server error. Please try again later.');
+		  }else if (error.response.status === 400) {
+			alert('Check your credential');
 		  }
 	}
 });
