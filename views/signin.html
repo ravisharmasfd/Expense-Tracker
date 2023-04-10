@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sign Up</title>
+	<title>Sign In</title>
 	<link rel="stylesheet" type="text/css" href='/auth.css'>
 </head>
 <body>
 	<form>
-		<h1>Expense tracker Sign Up</h1>
-		<label for="name">Name:</label>
-		<input type="text" id="name" name="name" required>
+		<h1>Expense tracker Sign In</h1>
 		<label for="email">Email:</label>
 		<input type="email" id="email" name="email" required>
 		<label for="password">Password:</label>
 		<input type="password" id="password" name="password" required>
-		<button type="submit" id="submit-btn">Sign Up</button>
-		<a class="authMover" href="/signin">Already have a account</a>
+		<button type="submit" id="submit-btn">Sign In</button>
+        <a class="authMover" href="/signup">Create a account</a>
 	</form>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="/signup.js"></script>
+	<script src="/signin.js"></script>
 </body>
 </html>
