@@ -5,6 +5,7 @@ const sequelize = require('../database/index.js')
 const User = sequelize.define('User', {
   email: Sequelize.STRING,
   password: Sequelize.STRING,
+  name : Sequelize.STRING,
 });
 
 module.exports = User;

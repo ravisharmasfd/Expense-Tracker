@@ -1,6 +1,7 @@
 const form = document.querySelector('form');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
+const nameInput = document.getElementById('name')
 const submitBtn = document.getElementById('submit-btn');
 
 form.addEventListener('submit', async(event) => {
@@ -8,7 +9,8 @@ form.addEventListener('submit', async(event) => {
 	try {
 		const res = await axios.post('/api/auth/signup',{
 			email: emailInput.value,
-			password: passwordInput.value
+			password: passwordInput.value,
+			name: nameInput.value
 		})
 		if (res.status === 200) {
 			alert(res.data.message)
