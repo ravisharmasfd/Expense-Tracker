@@ -15,7 +15,7 @@ form.addEventListener('submit', async(event) => {
 			window.location.href = '/';
 			}
 	} catch (error) {
-		if (error.response.status === 400) {
+		if (error.response.status === 401) {
 			alert("Check your password");
 		  } else if (error.response.status === 500) {
 			alert('Server error. Please try again later.');

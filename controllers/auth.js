@@ -41,9 +41,9 @@ const signin = async(req,res)=>{
         if(FindUser){
             if(FindUser.password === password){
                 // Send success response
-                res.status(200).json({ message: 'Sign in Successfully' });
+                res.status(200).json({ message: 'Sign in Successfully', user : FindUser});
             }else{
-                    res.status(400).json({message:"Check your password"})
+                    res.status(401).json({message:"Check your password"})
             }
         }else{
             // Send error response
