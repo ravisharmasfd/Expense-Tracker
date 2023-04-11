@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reset Password</title>
+  <link rel="stylesheet" href="/reset.css">
+</head>
+<body>
+  <h1>Reset Password</h1>
+  <p>Enter the password reset token and your new password:</p>
+  <label for="token">Reset Token:</label>
+  <input type="text" id="token">
+  <br>
+  <label for="password">New Password:</label>
+  <input type="password" id="password">
+  <br>
+  <label for="confirm-password">Confirm Password:</label>
+  <input type="password" id="confirm-password">
+  <br>
+  <button onclick="resetPassword()">Submit</button>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/reset.js"></script>
+</body>
+</html>

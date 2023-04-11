@@ -6,3 +6,5 @@ module.exports.dbPass = process.env.DATABASE_PASS;
 module.exports.dbHost = process.env.DATABASE_HOST;
 module.exports.payKeyId = process.env.PAY_KEY_ID;
 module.exports.payKeySecret = process.env.PAY_KEY_SECRET;
+module.exports.emailKey = process.env.EMAIL_KEY;
+

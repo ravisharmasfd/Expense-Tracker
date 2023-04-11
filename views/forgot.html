@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forgot Password</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    function forgotPassword() {
+      const email = document.getElementById("email").value;
+
+      axios.post("/api/auth/forgot", { email })
+        .then(response => {
+          if (response.status === 200) {
+            alert("Reset token sent to your email");
+            window.location.href = "/reset";
+          } else {
+            throw new Error(response.statusText);
+          }
+        })
+        .catch(error => {
+          let message;
+          if (error.response && error.response.status === 400) {
+            message = "User not found";
+          } else if (error.response && error.response.status === 500) {
+            message = "Email not sent. Please try again later.";
+          } else {
+            message = "An error occurred. Please try again later.";
+          }
+          alert(message);
+        });
+    }
+  </script>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-top: 1em;
+}
+
+p {
+  font-size: 1.2em;
+  margin-top: 1.5em;
+}
+
+input[type="email"] {
+  width: 70%;
+  height: 2.5em;
+  margin-top: 1.5em;
+  font-size: 1.2em;
+  padding: 0.5em;
+  border-radius: 5px;
+  border: 1px solid #3e8e41;
+  outline: none;
+}
+
+button {
+    background-color: #4CAF50;
+  color: #fff;
+  font-size: 1.2em;
+  padding: 0.5em 1.5em;
+  border-radius: 5px;
+  border: none;
+  margin-top: 1.5em;
+  cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Forgot Password</h1>
+  <p>Enter your email address to receive a password reset link:</p>
+  <input type="email" id="email">
+  <button onclick="forgotPassword()">Submit</button>
+</body>
+</html>
