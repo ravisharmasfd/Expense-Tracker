@@ -39,7 +39,7 @@ input[type="text"], input[type="number"] {
 	box-sizing: border-box;
 }
 
-button[type="submit"] {
+button[type="submit"], #buy {
 	display: block;
 	width: 100%;
 	padding: 10px;
@@ -50,7 +50,7 @@ button[type="submit"] {
 	cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,#buy:hover {
 	background-color: #3e8e41;
 }
   
@@ -67,4 +67,5 @@ button[type="submit"]:hover {
   .delete-button {
     margin-left: 10px;
   }
+
   
