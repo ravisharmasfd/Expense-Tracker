@@ -8,14 +8,7 @@ async function getUsersWithExpenses() {
         'Authorization': `Bearer ${token}` 
       }
     });
-    console.log(response)
-    if (response.status === 401) {
-      alert("You're not a premium user!");
-      window.location.href = '/';
-    } else {
-      const usersWithExpenses = response.data
-      console.log(response.data)
-      usersWithExpenses.forEach(user => {
+    response?.data?.forEach(user => {
         const row = document.createElement('tr');
         const emailCell = document.createElement('td');
         const nameCell = document.createElement('td');
@@ -30,10 +23,10 @@ async function getUsersWithExpenses() {
         row.appendChild(totalExpenseCell);
 
         usersTableBody.appendChild(row);
-      });
-    }
+      })
   } catch (error) {
-    console.log(error)
+    alert("You are not a premium member")
+    window.location.href = "/"
   }
 }
 window.addEventListener('load',getUsersWithExpenses)
