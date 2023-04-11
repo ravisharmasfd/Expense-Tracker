@@ -1,10 +1,51 @@
 // app.js
 const form = document.getElementById('expense-form');
 const descriptionInput = document.getElementById('description');
+const buyButton = document.getElementById('buy');
 const categoryInput = document.getElementById('category');
 const amountInput = document.getElementById('amount');
 const expenseList = document.getElementById('expense-list');
 let token = null ;
+
+buyButton.addEventListener('click',async()=>{
+ try {
+  const res = await axios.get('/api/order',{
+    headers: {
+      'Authorization': `Bearer ${token}` 
+    }
+  })
+  console.log(res.data)
+  var options = {
+    "key": res.data.key_id,
+    "order_id": res.data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler" : async function(response){
+      try {
+        console.log(response);
+      await axios.post('http://localhost:3000/api/order/complete',{
+        orderId: options.order_id,
+        paymentId: response.razorpay_payment_id
+      },{
+        headers: {
+          'Authorization': `Bearer ${token}`
+          }
+          })
+          alert("Payment Successfully")
+      } catch (error) {
+        console.log(error)
+      }
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+    rzp1.on('payment.failed',()=>{
+      alert("Payment Failed")
+    })
+ } catch (error) {
+  console.log(error)
+ }
+  
+})
 
 form.addEventListener('submit', addExpense);
 async function addExpense(event) {
