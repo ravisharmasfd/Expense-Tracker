@@ -9,6 +9,7 @@ function fileSender(filename){
 }
 router.use('/signup',fileSender('signup.html'));
 router.use('/signin',fileSender('signin.html'));
+router.use('/expense',fileSender('expense.html'))
 module.exports = router;
 
 
