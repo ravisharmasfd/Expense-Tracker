@@ -135,6 +135,7 @@ const resetPassword = async(req,res)=>{
   const salt = bcrypt.genSaltSync(saltRounds);
       const hash = bcrypt.hashSync(password, salt);
   await user.update({ password: hash});
+  await rp.destroy();
 
   // Redirect the user to the login page
   res.json({message:"success"})
