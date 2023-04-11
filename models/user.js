@@ -10,7 +10,14 @@ const User = sequelize.define('User', {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
 
-  } 
+  },
+  type: Sequelize.VIRTUAL,
+  get() {
+    return this.Expenses.reduce((total, expense) => total + expense.amount, 0);
+  },
+  set(value) {
+    throw new Error('Do not try to set the `totalExpense` value!');
+  }
 });
 
 module.exports = User;

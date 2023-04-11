@@ -82,7 +82,6 @@ const getAllExpenseByUser =  async (req, res) => {
            'id',
            'email',
            'name',
-           'premium',
            [sequelize.fn('SUM', sequelize.col('Expenses.amount')), 'totalExpense']
          ],
          include: [{
