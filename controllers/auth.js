@@ -1,4 +1,6 @@
 const User = require('../models/user.js')
+const jwt = require('jsonwebtoken');
+
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const signup = async(req,res)=>{
@@ -42,15 +44,12 @@ const signin = async(req,res)=>{
         if(!email || !password){
             res.status(400).json({message:"Check your credential"})
         }
-        console.log("🚀 ~ file: auth.js:36 ~ signin ~ em̥ail:", email)
-
-        
         const FindUser = await User.findOne({ where: { email } });
-
         if(FindUser){
             if(bcrypt.compareSync(password, FindUser.password)){
                 // Send success response
-                res.status(200).json({ message: 'Sign in Successfully', user : FindUser});
+                const token = jwt.sign({ userId:FindUser.id }, 'shhhhh');
+                res.status(200).json({ message: 'Sign in Successfully', token});
             }else{
                     res.status(401).json({message:"Check your password"})
             }

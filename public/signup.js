@@ -26,4 +26,13 @@ form.addEventListener('submit', async(event) => {
 		  }
 	}
 });
-2
+window.addEventListener('load', () => {
+    try {
+		const token  = localStorage.getItem('token');
+		if (token) {
+			window.location.href = '/';
+			}
+    } catch (error) {
+      console.error(error);
+    }
+  });
