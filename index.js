@@ -20,7 +20,7 @@ app.use('/api',apiRouter);
 app.use('/',frontendRouter)
 // Start server
 
-sequelize.sync({ force: true }).then(()=>{
+sequelize.sync().then(()=>{
     app.listen(PORT, () => {
   console.log('Server started on http://localhost:3000');
 });

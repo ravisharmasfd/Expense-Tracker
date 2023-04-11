@@ -20,7 +20,11 @@ const createExpense = async (req, res) => {
 const getAllExpenseByUser =  async (req, res) => {
     try {
       const expenses = await req.user.getExpenses();
-      res.json(expenses);
+      res.json({expenses,user:{
+        name: req.user.name,
+        premium : req.user.premium,
+        email : req.user.email,
+      }});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });

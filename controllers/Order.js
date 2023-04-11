@@ -27,13 +27,15 @@ const createOrder = async (req, res) => {
   } 
 const completeOrder =  async (req, res) => {
     try {
-        const {orderId, payKeyId } = req.body;
+        const {orderId, paymentId } = req.body;
+        console.log('orderId',orderId,"paymentId",paymentId)
         const odr = await Order.findOne({where:{orderId}});
         odr.orderId = orderId;
+        odr.paymentId = paymentId;
         odr.status = 'success'
-        odr.save();
+        await odr.save();
         req.user.premium = true;
-        req.user.save();
+        await req.user.save();
         res.json({message:'success'})
     } catch (error) {
       console.error(error);

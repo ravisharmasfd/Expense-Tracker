@@ -6,6 +6,7 @@ const categoryInput = document.getElementById('category');
 const amountInput = document.getElementById('amount');
 const expenseList = document.getElementById('expense-list');
 let token = null ;
+let user = null;
 
 buyButton.addEventListener('click',async()=>{
  try {
@@ -20,8 +21,7 @@ buyButton.addEventListener('click',async()=>{
     "order_id": res.data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler" : async function(response){
       try {
-        console.log(response);
-      await axios.post('http://localhost:3000/api/order/complete',{
+      await axios.post('http://localhost:3000/api/order',{
         orderId: options.order_id,
         paymentId: response.razorpay_payment_id
       },{
@@ -30,6 +30,7 @@ buyButton.addEventListener('click',async()=>{
           }
           })
           alert("Payment Successfully")
+          fetchExp();
       } catch (error) {
         console.log(error)
       }
@@ -65,7 +66,6 @@ async function addExpense(event) {
         'Authorization': `Bearer ${token}` 
       }
     });
-    console.log(res);
     // Add expense to UI
     const li = document.createElement('li');
     li.textContent = `${res.data.description} - $${res.data.amount} - ${res.data.category}`;
@@ -108,7 +108,16 @@ const fetchExp = async()=>{
       'Authorization': `Bearer ${token}` 
     }
   });
-      res?.data?.forEach(expense => {
+  user = res.data.user;
+  const premiumBox = document.getElementById('premium');
+  const alertPremium = document.getElementById('alertPremium');
+  if(user.premium){
+    premiumBox.style.display = 'none';
+    alertPremium.innerHTML = `${user.name} is a premium member`;
+  }else{
+    alertPremium.innerHTML = `${user.name} is not a premium member`;
+  }
+      res?.data?.expenses.forEach(expense => {
         const li = document.createElement('li');
         li.textContent = `${expense.description} - $${expense.amount} - ${expense.category}`;
         const deleteButton = document.createElement('button');
@@ -124,6 +133,7 @@ window.addEventListener('load', async () => {
       token = localStorage.getItem('token');
       if(token){
         fetchExp();
+        // if(!user) window.location.href = '/signin';
       }else{
         window.location.href = '/signin';
       }

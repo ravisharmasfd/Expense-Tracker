@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/expense.css">
   </head>
   <body>
-    <h1>Expense Tracker</h1>
+    <div><h1>Expense Tracker <span id="alertPremium"></span></h1></div>
     <form id="expense-form">
       <label for="description">Description</label>
       <input type="text" id="description" name="description" required>
@@ -23,9 +23,11 @@
       <input type="number" id="amount" name="amount" step="0.01" required>
       <button type="submit">Add Expense</button>
     </form>
-    <div id="expenses">
+    <div id="premium">
       <h2>Get Premium Features in just 30 INR</h2>
       <button id="buy">Buy Now</button>
+    </div>
+    <div id="expenses">
       <h2>Expenses</h2>
       <ul id="expense-list"></ul>
     </div>
