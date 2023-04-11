@@ -1,4 +1,6 @@
+const sequelize = require("../database");
 const Expense = require("../models/expense");
+const User = require("../models/user");
 
 const createExpense = async (req, res) => {
     try {
@@ -68,9 +70,38 @@ const getAllExpenseByUser =  async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
     }
     }
+    const leaderBoard = async(req,res)=>{
+      try {
+       if(!req.user.premium){
+         res.status(401).json({message: 'your are not a premium member'});
+         return
+       }
+     
+       const usersWithExpenses = await User.findAll({
+         attributes: [
+           'id',
+           'email',
+           'name',
+           'premium',
+           [sequelize.fn('SUM', sequelize.col('Expenses.amount')), 'totalExpense']
+         ],
+         include: [{
+           model: Expense,
+           attributes: []
+         }],
+         group: ['User.id'],
+         order: sequelize.literal('totalExpense ASC')
+       });
+       res.json(usersWithExpenses)
+      } catch (error) {
+       res.status(500)
+      }
+     }
+    
   module.exports = {
     createExpense,
     getAllExpenseByUser,
     deleteExpense,
-    updateExpense
+    updateExpense,
+    leaderBoard
   }

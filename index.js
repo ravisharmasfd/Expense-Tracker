@@ -8,11 +8,13 @@ const {PORT} = require('./config/env.js');
 const User = require('./models/user.js');
 const Expense = require('./models/expense.js');
 const Order = require('./models/order.js');
+const morgan = require('morgan');
 const app = express();
 User.hasMany(Expense);
 Expense.belongsTo(User);
 User.hasMany(Order);
 Order.belongsTo(User);
+app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static(path.join(require.main.path,'public')));
 app.use(express.json())
