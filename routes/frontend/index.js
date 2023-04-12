@@ -10,6 +10,7 @@ function fileSender(filename){
 router.use('/signup',fileSender('signup.html'));
 router.use('/signin',fileSender('signin.html'));
 router.use('/forgot',fileSender('forgot.html'));
+router.use('/report',fileSender('report.html'));
 router.use('/reset',fileSender('reset.html'));
 router.use('/leaderboard', fileSender('leaderBoard.html'));
 router.use('/',fileSender('expense.html'));
