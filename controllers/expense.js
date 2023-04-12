@@ -1,7 +1,7 @@
 const sequelize = require("../database");
 const Expense = require("../models/expense");
 const User = require("../models/user");
-
+const { Op } = require('sequelize');
 const createExpense = async (req, res) => {
   try {
     const user = req.user;
@@ -104,11 +104,67 @@ const leaderBoard = async (req, res) => {
     res.status(500);
   }
 };
-
+const report = async(req,res)=>{
+  const user = req.user
+  if(!user.premium){
+    res.status(401).json({message:"You are not a premium member"});
+    return;
+  }
+  const timeframe = req.body.timeframe;
+  
+  let startDate;
+  const currentDate = new Date();
+  const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() );
+  
+  switch (timeframe) {
+    case 'daily':
+      startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()-1);
+      break;
+    case 'weekly':
+      startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay()-7);
+      break;
+    case 'monthly':
+      startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() -1,  currentDate.getDate());
+      break;
+    case 'yearly':
+      startDate = new Date(currentDate.getFullYear()-1,currentDate.getMonth(),currentDate.getDate() );
+      break;
+    default:
+      res.status(400).json({ error: 'Invalid timeframe' });
+      return;
+  }
+  
+  try {
+    const expenses = await Expense.findAll({
+      where: {
+        userId: user.id,
+        createdAt: {
+          [Op.gte]: startDate,
+          [Op.lte]: endDate
+        }
+      }
+    });
+    
+    let totalExpense = 0;
+    expenses.forEach(expense => {
+      totalExpense += expense.amount;
+    });
+    
+    res.json({
+      user: user,
+      expenses: expenses,
+      totalExpense: totalExpense
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 module.exports = {
   createExpense,
   getAllExpenseByUser,
   deleteExpense,
   // updateExpense,
   leaderBoard,
+  report
 };

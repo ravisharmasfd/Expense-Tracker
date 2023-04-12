@@ -7,15 +7,15 @@
 </head>
 <body>
 	<h1>Expense Report</h1>
-	<ul>
-		<li><a href="#daily">Daily</a></li>
-		<li><a href="#weekly">Weekly</a></li>
-		<li><a href="#monthly">Monthly</a></li>
-		<li><a href="#yearly">Yearly</a></li>
+	<ul class="tabs">
+		<li><a id="daily">Daily</a></li>
+		<li><a id="weekly">Weekly</a></li>
+		<li><a id="monthly">Monthly</a></li>
+		<li><a id="yearly">Yearly</a></li>
 	</ul>
 
-	<div id="daily">
-		<h2>Daily Expenses</h2>
+	<div >
+		<h2><span id="expenseName">Daily</span> Expense</h2>
 		<table>
 			<thead>
 				<tr>
@@ -24,79 +24,13 @@
 					<th>Amount</th>
 				</tr>
 			</thead>
-			<tbody id="daily-expense-list">
+			<tbody id="expense-list">
 			</tbody>
 			<tfoot>
 				<tr>
 					<td>Total:</td>
 					<td></td>
-					<td id="daily-total"></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
-
-	<div id="weekly">
-		<h2>Weekly Expenses</h2>
-		<table>
-			<thead>
-				<tr>
-					<th>Description</th>
-					<th>Category</th>
-					<th>Amount</th>
-				</tr>
-			</thead>
-			<tbody id="weekly-expense-list">
-			</tbody>
-			<tfoot>
-				<tr>
-					<td>Total:</td>
-					<td></td>
-					<td id="weekly-total"></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
-
-	<div id="monthly">
-		<h2>Monthly Expenses</h2>
-		<table>
-			<thead>
-				<tr>
-					<th>Description</th>
-					<th>Category</th>
-					<th>Amount</th>
-				</tr>
-			</thead>
-			<tbody id="monthly-expense-list">
-			</tbody>
-			<tfoot>
-				<tr>
-					<td>Total:</td>
-					<td></td>
-					<td id="monthly-total"></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
-
-	<div id="yearly">
-		<h2>Yearly Expenses</h2>
-		<table>
-			<thead>
-				<tr>
-					<th>Description</th>
-					<th>Category</th>
-					<th>Amount</th>
-				</tr>
-			</thead>
-			<tbody id="yearly-expense-list">
-			</tbody>
-			<tfoot>
-				<tr>
-					<td>Total:</td>
-					<td></td>
-					<td id="yearly-total"></td>
+					<td id="total"></td>
 				</tr>
 			</tfoot>
 		</table>
