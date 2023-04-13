@@ -2,6 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' checkout.razorpay.com"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
     <link rel="stylesheet" href="/expense.css" />
@@ -47,9 +51,10 @@
         <button type="submit">Add Expense</button>
       </form>
       <div class="left">
-        <div id="pagination"></div>
-        <div>
-          <label for="select-option">Select option:</label>
+        <div id="expense-list-tool">
+          <label for="pagination">Page</label>
+          <div id="pagination"></div>
+          <label for="select-option">Item per page:</label>
           <select id="select-option">
             <option value="10" selected>10</option>
             <option value="5">5</option>
@@ -57,15 +62,14 @@
             <option value="20">20</option>
             <option value="25">25</option>
           </select>
-        </div>
         <div id="expenses">
           <h2>Expenses</h2>
           <ul id="expense-list"></ul>
         </div>
       </div>
     </section>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="/axios.js"></script>
     <script src="/expense.js"></script>
   </body>
 </html>

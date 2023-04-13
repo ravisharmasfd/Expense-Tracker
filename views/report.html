@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Expense Report</title>
-    <link rel="stylesheet" href="/report.css">
-</head>
-<body>
-	<h1>Expense Report</h1>
-	<ul class="tabs">
-		<li><a id="daily">Daily</a></li>
-		<li><a id="weekly">Weekly</a></li>
-		<li><a id="monthly">Monthly</a></li>
-		<li><a id="yearly">Yearly</a></li>
-	</ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<div >
-		<h2><span id="expenseName">Daily</span> Expense</h2>
-		<table>
-			<thead>
-				<tr>
-					<th>Description</th>
-					<th>Category</th>
-					<th>Amount</th>
-				</tr>
-			</thead>
-			<tbody id="expense-list">
-			</tbody>
-			<tfoot>
-				<tr>
-					<td>Total:</td>
-					<td></td>
-					<td id="total"></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
+    <title>Expense Report</title>
+    <link rel="stylesheet" href="/report.css" />
+  </head>
+  <body>
+    <nav id="navigation">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/report">Timeline Report</a></li>
+        <li><a href="/download-report">Download Report</a></li>
+        <li><a id="logout" href="#">Logout</a></li>
+      </ul>
+    </nav>
+    <h1>Expense Report</h1>
+    <ul class="tabs">
+      <li><a id="daily">Daily</a></li>
+      <li><a id="weekly">Weekly</a></li>
+      <li><a id="monthly">Monthly</a></li>
+      <li><a id="yearly">Yearly</a></li>
+    </ul>
 
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="/report.js">
+    <div>
+      <h2><span id="expenseName">Daily</span> Expense</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="expense-list"></tbody>
+        <tfoot>
+          <tr>
+            <td>Total:</td>
+            <td></td>
+            <td id="total"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-    </script>
-</body>
+    <script src="/axios.js"></script>
+    <script src="/report.js"></script>
+  </body>
 </html>

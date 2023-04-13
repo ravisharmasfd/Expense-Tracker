@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Download Report</title>
-  <link>    <link rel="stylesheet" href="/downloadReport.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-</head>
-<body>
-  <h1>Download Report</h1>
-  
-  <button id="download-btn">Download Latest Report</button>
-  
-  <h2>Previous Reports</h2>
-  
-  <table id="previous-reports">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Download Link</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Table rows will be generated dynamically using JavaScript -->
-    </tbody>
-  </table>
-  
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="/downloadReport.js"></script>
-</body>
+    <title>Download Report</title>
+    <link />
+    <link rel="stylesheet" href="/downloadReport.css" />
+  </head>
+  <body>
+    <nav id="navigation">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/report">Timeline Report</a></li>
+        <li><a href="/download-report">Download Report</a></li>
+        <li><a id="logout" href="#">Logout</a></li>
+      </ul>
+    </nav>
+    <h1>Download Report</h1>
+
+    <button id="download-btn">Download Latest Report</button>
+
+    <h2>Previous Reports</h2>
+
+    <table id="previous-reports">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Download Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be generated dynamically using JavaScript -->
+      </tbody>
+    </table>
+
+    <script src="/axios.js"></script>
+    <script src="/downloadReport.js"></script>
+  </body>
 </html>

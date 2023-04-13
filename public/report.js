@@ -4,7 +4,6 @@ const Total = document.querySelector("#total");
 async function fetchExpenseReport(timeframe) {
   try {
     const token = localStorage.getItem("token");
-    console.log(token)
     const response = await axios.post(
       "/api/expense/report",
       { timeframe },
@@ -14,7 +13,6 @@ async function fetchExpenseReport(timeframe) {
         },
       }
     );
-    console.log(response)
     const expenses = response.data.expenses;
     let total = 0;
     const table = Table;
@@ -37,9 +35,9 @@ async function fetchExpenseReport(timeframe) {
     });
     Total.textContent = `$${response?.data?.totalExpense.toFixed(2)}`;
     const expenseName = document.getElementById("expenseName");
-    expenseName.textContent = timeframe.charAt(0).toUpperCase() + timeframe.slice(1);
+    expenseName.textContent =
+      timeframe.charAt(0).toUpperCase() + timeframe.slice(1);
   } catch (error) {
-    console.error(error);
     alert("You are not a premium member");
     window.location.href = "/";
   }
@@ -55,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
 
       const timeframe = tab.id;
-
 
       fetchExpenseReport(timeframe);
     });

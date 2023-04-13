@@ -11,11 +11,9 @@ const Order = require('./models/order.js');
 const morgan = require('morgan');
 const File = require('./models/files.js');
 const fs = require('fs');
-const helmet = require('helmet')
 const logStream = fs.createWriteStream(path.join(require.main.path,"logs", 'access.log'), { flags: 'a' });
 
 const app = express();
-
 
 
 User.hasMany(Expense);
@@ -24,13 +22,7 @@ User.hasMany(Order);
 Order.belongsTo(User);
 User.hasMany(File);
 File.belongsTo(User)
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      scriptSrc: ["'self'", "cdn.jsdelivr.net"],
-    },
-  })
-);
+
 
 
 app.use(morgan('combined', { stream: logStream }));

@@ -37,7 +37,6 @@ const signup = async (req, res) => {
   } catch (error) {
     // Send error response
     res.status(500).json({ message: "Server error" });
-    console.log(error);
   }
 };
 const signin = async (req, res) => {
@@ -62,7 +61,6 @@ const signin = async (req, res) => {
   } catch (error) {
     // Send error response
     res.status(500).json({ message: "Server error" });
-    console.log(error);
   }
 };
 
@@ -83,12 +81,12 @@ const forgotSendEmail = async (req, res) => {
     await PasswordReset.create({
       token,
       expire,
-      email
+      email,
     });
     const link = `${req.protocol}://${req.headers.host}/reset`;
     // Send the password reset email
     const to = [{ email }];
-    const sender = { name:"ravi sharma",email: "ravisharma23523@gmail.com" };
+    const sender = { name: "ravi sharma", email: "ravisharma23523@gmail.com" };
     const subject = "Password reset request";
     const htmlContent = `
     <p>You have requested to reset your password for your account.</p>
@@ -97,58 +95,54 @@ const forgotSendEmail = async (req, res) => {
     <a href="${link}">Visit here to update password</a>
     <p>If you did not request a password reset, please ignore this email.</p>
     `;
-    const message = { to,sender, subject, htmlContent };
+    const message = { to, sender, subject, htmlContent };
     sendinblueApi
       .sendTransacEmail(message)
       .then((response) => {
         res.status(200).json({ message: "Password reset email sent." });
       })
       .catch((error) => {
-        console.error(error);
         return res.status(500).json({ message: "Error sending email." });
       });
   } catch (error) {
-    console.log(error);
-    res.status(500)
+    res.status(500);
   }
 };
-const resetPassword = async(req,res)=>{
+const resetPassword = async (req, res) => {
   try {
-  const { password, token } = req.body;
+    const { password, token } = req.body;
 
-  // Validate the token
-  
-  const rp = await PasswordReset.findOne({ where: { token: token } });
-  const email = rp.email;
-  const user = await User.findOne({where:{email}})
-  if (!user) {
-    return res.status(400).json({ message: 'Invalid or expired token.' });
+    // Validate the token
+
+    const rp = await PasswordReset.findOne({ where: { token: token } });
+    const email = rp.email;
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token." });
+    }
+
+    // Check if the token has expired
+    const now = moment();
+    const expiration = moment(rp.expire);
+    if (now.isAfter(expiration)) {
+      return res.status(400).json({ message: "Invalid or expired token." });
+    }
+
+    // Hash the new password and update the user record
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+    await user.update({ password: hash });
+    await rp.destroy();
+
+    // Redirect the user to the login page
+    res.json({ message: "success" });
+  } catch (error) {
+    res.status(500);
   }
-
-  // Check if the token has expired
-  const now = moment();
-  const expiration = moment(rp.expire);
-  if (now.isAfter(expiration)) {
-    return res.status(400).json({ message: 'Invalid or expired token.' });
-  }
-
-  // Hash the new password and update the user record
-  const salt = bcrypt.genSaltSync(saltRounds);
-      const hash = bcrypt.hashSync(password, salt);
-  await user.update({ password: hash});
-  await rp.destroy();
-
-  // Redirect the user to the login page
-  res.json({message:"success"})
-}
- catch (error) {
-  res.status(500);
-  console.log(error)
-  }
-}
+};
 module.exports = {
   signup,
   signin,
   forgotSendEmail,
-  resetPassword
+  resetPassword,
 };

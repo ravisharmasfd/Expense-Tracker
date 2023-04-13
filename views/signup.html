@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Sign Up</title>
-	<link rel="stylesheet" type="text/css" href='/auth.css'>
-</head>
-<body>
-	<form>
-		<h1>Expense tracker Sign Up</h1>
-		<label for="name">Name:</label>
-		<input type="text" id="name" name="name" required>
-		<label for="email">Email:</label>
-		<input type="email" id="email" name="email" required>
-		<label for="password">Password:</label>
-		<input type="password" id="password" name="password" required>
-		<button type="submit" id="submit-btn">Sign Up</button>
-		<a class="authMover" href="/signin">Already have a account</a>
-	</form>
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="/signup.js"></script>
-</body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="/auth.css" />
+  </head>
+  <body>
+    <form>
+      <h1>Expense tracker Sign Up</h1>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <button type="submit" id="submit-btn">Sign Up</button>
+      <a class="authMover" href="/signin">Already have a account</a>
+    </form>
+    <script src="/axios.js"></script>
+    <script src="/signup.js"></script>
+  </body>
 </html>
