@@ -1,4 +1,5 @@
 const s3 = require("../config/bucket");
+const { s3Bucket } = require("../config/env");
 const sequelize = require("../database");
 const Expense = require("../models/expense");
 const File = require("../models/files");
@@ -174,7 +175,7 @@ const downloadReport  = async(req,res)=>{
 
       const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/g, '');
       const params = {
-        Bucket: "expensetrackersfd",
+        Bucket: s3Bucket,
         Key: `expenses-${req.user.id}-${now}.txt`,
         Body: JSON.stringify(records),
         ACL: "public-read"
