@@ -1,6 +1,7 @@
 const User = require('../models/user.js')
 const jwt = require('jsonwebtoken');
-const authMiddleWare = async(req,res,next)=>{
+
+const premiumMiddleWare = async(req,res,next)=>{
     const {authorization} = req.headers;
     if(authorization){
         try {
@@ -16,6 +17,9 @@ const authMiddleWare = async(req,res,next)=>{
                 res.status(401).json({msg:"You are not authorized"});
                 return;
                 }
+            if(!user.premium){
+                res.status(401).json({msg:"You are not a premium user"});
+            }
             req.user = user;
             next();
         } catch (error) {
@@ -25,4 +29,4 @@ const authMiddleWare = async(req,res,next)=>{
         res.status(401).json({msg:"You are not authorize"})
     }
 }
-module.exports = authMiddleWare;
+module.exports = premiumMiddleWare;

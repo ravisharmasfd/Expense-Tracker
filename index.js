@@ -9,11 +9,14 @@ const User = require('./models/user.js');
 const Expense = require('./models/expense.js');
 const Order = require('./models/order.js');
 const morgan = require('morgan');
+const File = require('./models/files.js');
 const app = express();
 User.hasMany(Expense);
 Expense.belongsTo(User);
 User.hasMany(Order);
 Order.belongsTo(User);
+User.hasMany(File);
+File.belongsTo(User)
 app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static(path.join(require.main.path,'public')));

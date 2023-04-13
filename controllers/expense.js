@@ -1,5 +1,7 @@
+const s3 = require("../config/bucket");
 const sequelize = require("../database");
 const Expense = require("../models/expense");
+const File = require("../models/files");
 const User = require("../models/user");
 const { Op } = require('sequelize');
 const createExpense = async (req, res) => {
@@ -133,7 +135,7 @@ const report = async(req,res)=>{
       res.status(400).json({ error: 'Invalid timeframe' });
       return;
   }
-  
+
   try {
     const expenses = await Expense.findAll({
       where: {
@@ -160,11 +162,54 @@ const report = async(req,res)=>{
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+const downloadReport  = async(req,res)=>{
+  try {
+    const expenses = await req.user.getExpenses();
+      const records = expenses.map(expense => ({
+        description: expense.description,
+        category: expense.category,
+        amount: expense.amount,
+      }));
+
+      const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/g, '');
+      const params = {
+        Bucket: "expensetrackersfd",
+        Key: `expenses-${req.user.id}-${now}.txt`,
+        Body: JSON.stringify(records),
+        ACL: "public-read"
+      };
+      const uploadPromise = s3.upload(params).promise();
+      const { Location } = await uploadPromise;
+      const file = await req.user.createFile({
+        url:Location,
+        name:params.Key
+      })
+    
+      res.send({ url: Location , file});
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+const previousFiles =async(req,res)=>{
+   try {
+    const files = await File.findAll({where:{UserId:req.user.id},
+      order: sequelize.literal("createdAt DESC")})
+    res.json(files)
+   } catch (error) {
+    res.status(500)
+    console.log(error)
+
+   }
+}
 module.exports = {
   createExpense,
   getAllExpenseByUser,
   deleteExpense,
   // updateExpense,
   leaderBoard,
-  report
+  report,
+  downloadReport,
+  previousFiles
 };
