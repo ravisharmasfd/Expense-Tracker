@@ -30,13 +30,31 @@ const createExpense = async (req, res) => {
 };
 const getAllExpenseByUser = async (req, res) => {
   try {
-    const expenses = await req.user.getExpenses();
+    const { page } = req.params;
+    if(!page) page = 1;
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
+    const limit = parseInt(perPage);
+
+    const expenses = await req.user.getExpenses({ offset, limit, order: sequelize.literal("createdAt DESC") });
+    const totalExpenses = await req.user.countExpenses();
+
+    const totalPages = Math.ceil(totalExpenses / perPage);
+
     res.json({
       expenses,
       user: {
         name: req.user.name,
         premium: req.user.premium,
         email: req.user.email,
+      },
+      pagination: {
+        page,
+        perPage,
+        totalPages,
+        totalExpenses,
+        nextPage: page<totalPages,
+        previousPage: page>1,
       },
     });
   } catch (error) {

@@ -5,9 +5,17 @@ const buyButton = document.getElementById('buy');
 const categoryInput = document.getElementById('category');
 const amountInput = document.getElementById('amount');
 const expenseList = document.getElementById('expense-list');
+const logout = document.getElementById('logout')
 let token = null ;
 let user = null;
-
+let currentPage = 1; // current page number
+let expenses = []; // array of expenses
+let paginationData ={};
+logout.onclick = ()=>{
+  localStorage.removeItem('token');
+  token = null;
+  window.location.href = '/signin'
+}
 buyButton.addEventListener('click',async()=>{
  try {
   const res = await axios.get('/api/order',{
@@ -66,20 +74,7 @@ async function addExpense(event) {
         'Authorization': `Bearer ${token}` 
       }
     });
-    // Add expense to UI
-    const li = document.createElement('li');
-    li.textContent = `${res.data.description} - $${res.data.amount} - ${res.data.category}`;
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.classList.add('delete-button');
-    deleteButton.addEventListener('click', () => deleteExpense(res.data.id, li));
-    li.appendChild(deleteButton);
-    expenseList.appendChild(li);
-
-    // Clear form inputs
-    descriptionInput.value = '';
-    categoryInput.value = '';
-    amountInput.value = '';
+    fetchExp();
 
   } catch (error) {
     console.error(error);
@@ -102,13 +97,36 @@ async function deleteExpense(id, li) {
     console.error(error);
   }
 }
+const renderPagination = () => {
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = "";
+  const totalPages = paginationData.totalPages
+  for (let i = 1; i <= totalPages; i++) {
+    const link = document.createElement("a");
+    link.href = "#";
+    link.textContent = i;
+    if (i === currentPage) {
+      link.classList.add("active");
+    }
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      currentPage = i;
+      fetchExp();
+    });
+    pagination.appendChild(link);
+  }
+};
 const fetchExp = async()=>{
-  const res = await axios.get('/api/expense',{
+  const res = await axios.get('/api/expense/'+ currentPage,{
     headers: {
       'Authorization': `Bearer ${token}` 
     }
   });
   user = res.data.user;
+  if(!user) window.location.href = '/signin';
+  expenses = res.data.expenses;
+  paginationData = res.data.pagination;
+  console.log(res.data)
   const premiumBox = document.getElementById('premium');
   const alertPremium = document.getElementById('alertPremium');
   if(user.premium){
@@ -116,8 +134,10 @@ const fetchExp = async()=>{
     alertPremium.innerHTML = `${user.name} is a premium member`;
   }else{
     alertPremium.innerHTML = `${user.name} is not a premium member`;
+    premiumBox.style.display = 'block'
   }
-      res?.data?.expenses.forEach(expense => {
+  expenseList.innerHTML = ""
+      expenses.forEach(expense => {
         const li = document.createElement('li');
         li.textContent = `${expense.description} - $${expense.amount} - ${expense.category}`;
         const deleteButton = document.createElement('button');
@@ -127,13 +147,13 @@ const fetchExp = async()=>{
         li.appendChild(deleteButton);
         expenseList.appendChild(li);
       });
+  renderPagination();
 }
-window.addEventListener('load', async () => {
+window.addEventListener('DOMContentLoaded', async () => {
     try {
       token = localStorage.getItem('token');
       if(token){
-        fetchExp();
-        // if(!user) window.location.href = '/signin';
+        await fetchExp();
       }else{
         window.location.href = '/signin';
       }
