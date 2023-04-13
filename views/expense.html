@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
-    <link rel="stylesheet" href="/expense.css">
+    <link rel="stylesheet" href="/expense.css" />
   </head>
   <body>
     <nav id="navigation">
@@ -16,7 +16,9 @@
         <li><a id="logout" href="#">Logout</a></li>
       </ul>
     </nav>
-    <div><h1>Expense Tracker <span id="alertPremium"></span></h1></div>
+    <div>
+      <h1>Expense Tracker <span id="alertPremium"></span></h1>
+    </div>
     <div id="premium">
       <h2>Get Premium Features in just 30 INR</h2>
       <button id="buy">Buy Now</button>
@@ -24,7 +26,7 @@
     <section>
       <form id="expense-form">
         <label for="description">Description</label>
-        <input type="text" id="description" name="description" required>
+        <input type="text" id="description" name="description" required />
         <label for="category">Category</label>
         <datalist id="category-list">
           <option value="Food"></option>
@@ -33,18 +35,33 @@
           <option value="Shopping"></option>
           <option value="Bills"></option>
         </datalist>
-        <input type="text" id="category" name="category" list="category-list" required>
+        <input
+          type="text"
+          id="category"
+          name="category"
+          list="category-list"
+          required
+        />
         <label for="amount">Amount</label>
-        <input type="number" id="amount" name="amount" step="0.01" required>
+        <input type="number" id="amount" name="amount" step="0.01" required />
         <button type="submit">Add Expense</button>
       </form>
       <div class="left">
         <div id="pagination"></div>
+        <div>
+          <label for="select-option">Select option:</label>
+          <select id="select-option">
+            <option value="10" selected>10</option>
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+          </select>
+        </div>
         <div id="expenses">
           <h2>Expenses</h2>
           <ul id="expense-list"></ul>
         </div>
-        
       </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -9,8 +9,11 @@ const logout = document.getElementById('logout')
 let token = null ;
 let user = null;
 let currentPage = 1; // current page number
+let selectButton = document.getElementById("select-option");
+let perPage = 10;
 let expenses = []; // array of expenses
 let paginationData ={};
+
 logout.onclick = ()=>{
   localStorage.removeItem('token');
   token = null;
@@ -116,8 +119,11 @@ const renderPagination = () => {
     pagination.appendChild(link);
   }
 };
-const fetchExp = async()=>{
-  const res = await axios.get('/api/expense/'+ currentPage,{
+async function fetchExp(){
+  const res = await axios.post('/api/expense/getall',{
+    page:currentPage,
+    perPage,
+  },{
     headers: {
       'Authorization': `Bearer ${token}` 
     }
@@ -149,6 +155,10 @@ const fetchExp = async()=>{
       });
   renderPagination();
 }
+selectButton.addEventListener('change',(e)=>{
+  perPage = e.target.value
+  fetchExp();
+})
 window.addEventListener('DOMContentLoaded', async () => {
     try {
       token = localStorage.getItem('token');

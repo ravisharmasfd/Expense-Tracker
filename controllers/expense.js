@@ -30,9 +30,8 @@ const createExpense = async (req, res) => {
 };
 const getAllExpenseByUser = async (req, res) => {
   try {
-    const { page } = req.params;
+    const { page, perPage } = req.body;
     if(!page) page = 1;
-    const perPage = 10;
     const offset = (page - 1) * perPage;
     const limit = parseInt(perPage);
 
