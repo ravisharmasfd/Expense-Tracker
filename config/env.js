@@ -1,5 +1,6 @@
 require('dotenv').config()
 module.exports.PORT = process.env.PORT || 3000;
+module.exports.jwtSecret = process.env.JWT_SECRET
 module.exports.dbName = process.env.DATABASE_NAME;
 module.exports.dbUser = process.env.DATABASE_USER;
 module.exports.dbPass = process.env.DATABASE_PASS;

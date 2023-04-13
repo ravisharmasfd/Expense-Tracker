@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
 const PasswordReset = require("../models/password.js");
 const sendinblueApi = require("../config/emailSender.js");
+const { jwtSecret } = require("../config/env.js");
 const signup = async (req, res) => {
   try {
     const { email, name, password } = req.body;
@@ -49,7 +50,7 @@ const signin = async (req, res) => {
     if (FindUser) {
       if (bcrypt.compareSync(password, FindUser.password)) {
         // Send success response
-        const token = jwt.sign({ userId: FindUser.id }, "shhhhh");
+        const token = jwt.sign({ userId: FindUser.id }, jwtSecret);
         res.status(200).json({ message: "Sign in Successfully", token });
       } else {
         res.status(401).json({ message: "Check your password" });

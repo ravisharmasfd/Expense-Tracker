@@ -14,11 +14,12 @@ let perPage = 10;
 let expenses = []; // array of expenses
 let paginationData ={};
 
-logout.onclick = ()=>{
+function lg(){
   localStorage.removeItem('token');
   token = null;
   window.location.href = '/signin'
 }
+logout.onclick = lg;
 buyButton.addEventListener('click',async()=>{
  try {
   const res = await axios.get('/api/order',{
@@ -129,10 +130,10 @@ async function fetchExp(){
     }
   });
   user = res.data.user;
-  if(!user) window.location.href = '/signin';
+  if(!user) lg();
   expenses = res.data.expenses;
   paginationData = res.data.pagination;
-  console.log(res.data)
+
   const premiumBox = document.getElementById('premium');
   const alertPremium = document.getElementById('alertPremium');
   if(user.premium){
@@ -165,9 +166,9 @@ window.addEventListener('DOMContentLoaded', async () => {
       if(token){
         await fetchExp();
       }else{
-        window.location.href = '/signin';
+        lg()
       }
     } catch (error) {
-      console.error(error);
+      lg()
     }
   });
