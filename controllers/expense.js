@@ -220,7 +220,8 @@ const downloadReport = async (req, res) => {
     });
     res.send({ url: Location, file });
   } catch (error) {
-    res.status(500).json(error);
+    console.log(error)
+    res.status(500);
   }
 };
 const previousFiles = async (req, res) => {
