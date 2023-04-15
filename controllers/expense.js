@@ -73,7 +73,6 @@ const deleteExpense = async (req, res) => {
     if (!expense) {
       return res.status(404).json({ error: "Expense not found" });
     }
-    // Check if the expense belongs to the user who made the request
     if (expense.UserId !== req.user.id) {
       return res.status(401).json({ error: "Unauthorized" });
     }
@@ -107,11 +106,6 @@ const deleteExpense = async (req, res) => {
 // };
 const leaderBoard = async (req, res) => {
   try {
-    if (!req.user.premium) {
-      res.status(401).json({ message: "your are not a premium member" });
-      return;
-    }
-
     const usersWithExpenses = await User.findAll({
       attributes: ["id", "email", "name", "totalExpense"],
       order: sequelize.literal("totalExpense DESC"),
